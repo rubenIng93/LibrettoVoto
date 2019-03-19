@@ -47,12 +47,19 @@ public class Libretto {
 	 * @return Voto corrispondente oppure null se non esistente.
 	 */
 	public Voto cercaEsame (String nomeEsame) {
-		for(Voto v : this.voti) {
+		/*for(Voto v : this.voti) {
 			if(v.getCorso().equals(nomeEsame)) {//sempre meglio equals per confrontare!! 
 				return v;						//Non per tutti gli oggetti ha senso un ordinamento!!
 			}
 		}
-		return null;
+		return null;*/
+		Voto voto = new Voto(0, nomeEsame, null); //oggetto Voto incompleto, ma mi serve solo per la ricerca con equals
+		int pos = this.voti.indexOf(voto);		// che agisce solo sul nome esame
+		if(pos == -1) {//-1 se non lo trova
+			return null;
+		}
+		else
+			return this.voti.get(pos);
 	}
 	
 	/**
@@ -64,13 +71,13 @@ public class Libretto {
 	 * non ha trovato un corso o lo ha trovato con un voto diverso.
 	 */
 	public boolean esisteGiaVoto(Voto v) {
-		Voto trovato = this.cercaEsame(v.getCorso());
-		if (trovato == null)
+		int pos = this.voti.indexOf(v);
+		if(pos == -1) {
 			return false;
-		if(trovato.getPunti() == v.getPunti()) {
-			return true;
-		}else
-			return false;
+		}else {
+			return (v.getPunti() == this.voti.get(pos).getPunti());
+		}
+		
 	}
 
 }
